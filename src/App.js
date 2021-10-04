@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-//import db from "./firebase/firebaseConfig";
+import db from "./firebase/firebaseConfig";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Header from "./Componentes/Header";
 import Inicio from "./Componentes/Inicio";
