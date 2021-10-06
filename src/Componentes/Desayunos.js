@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import db from "../firebase/firebaseConfig";
+import NavBar from "./NavBar";
+import "../../src/css/Desayuno.css"
 
 const Desayuno = () => {
 
@@ -40,39 +42,30 @@ const Desayuno = () => {
   return (
     <div>
       <div className="container">
-        <h1>Menú Desayunos</h1>
+       <NavBar/>
+
         <div className="row">
           <div className="col-6">
-            <div className="row row-cols-1 row-cols-md-3 g-4">
-              {menus.map((item) => (
-                <div key={item.id} className="col">
-                  <div className="card h-100">
-                    <img
-                      src={item.url}
-                      className="card-img-top"
-                      alt="..."
-                    ></img>
-                    <div className="card-body">
-                      <h5 className="card-title">{item.item}</h5>
-                      <button
-                        onClick={() => {
-                          agregar(item);
-                        }}
-                        className="btn btn-primary"
-                      >
-                        Añadir
-                      </button>
-                    </div>
-                    <div className="card-footer">
-                      <small className="text-muted">${item.precio}</small>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <div>
+                {
+                  menus.map((item) => (
+                    <button
+                      className="menuButton"
+                      key={item.id}
+                      onClick={(e) => agregar(item)}
+                    >
+                      <img src={item.url} alt="icono-producto" className="iconButton" width={50}></img>
+                      <div className="product-text-button">
+                        <p>{item.item}</p> <p>${item.precio}</p>
+                      </div>
+                    </button>
+                  ))
+                }
+              </div>
+           
           </div>
 
-
+          {/* tabla pedido */}
 
           <div className="col-6">
             <table className="table">

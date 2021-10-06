@@ -1,0 +1,49 @@
+.navbar {
+    background-color: #361B3A;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.buttonnav {
+    background-color:#361B3A;
+    color: #f9a531;
+    padding: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: none;
+
+}
+
+.buttonnav:hover {
+    background-color: #361B3A;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 15px;
+}
+
+@media all and (max-width: 800px) {
+    
+    .navbar {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .navbar-brand img{
+        width: 100px;
+    }
+
+    .buttonnav {
+        font-size: 30px;
+    }
+}
+
+@media all and (max-width: 400px) {
+
+    .d-flex {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .buttonnav {
+        font-size: 18px;
+    }
+}

@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  @media all and (max-width: 1030px) {
+    
+    .container-principal {
+      margin: 0;
+      padding: 0;
+    }
+    
+  }
+  
