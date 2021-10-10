@@ -1,4 +1,4 @@
-const Pedido = () => {
+const Kitchen = () => {
     return ( 
         <div>
           <h1>Toma de Pedidos</h1>
@@ -6,4 +6,4 @@ const Pedido = () => {
      );
 }
  
-export default Pedido;
+export default Kitchen;

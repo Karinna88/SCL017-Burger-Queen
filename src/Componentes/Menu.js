@@ -4,12 +4,11 @@ import NavBar from "./NavBar";
 import "../../src/css/Menu.css";
 import { useParams } from "react-router-dom";
 
-
 const Menu = () => {
   const { menu } = useParams();
-  const [productList, setProductList] = React.useState([]);
+  const [productOrderList, setProductOrderList] = React.useState([]);
   const [menus, setMenus] = React.useState([]);
-
+  const [total, setTotal] = React.useState(0)
 
   // se carga el menú
   useEffect(() => {
@@ -25,30 +24,72 @@ const Menu = () => {
   }, []);
 
   // funcion para agregar nuevo producto
-  const agregar = (item) => {
-    console.log(item);
-    const productListClone = [...productList]; //esto representa a todos los productos (nuevoproducto = clon)
+  const addProductOrder = (item) => {
+    const productListClone = [...productOrderList]; //nuevoproducto = clon
 
-    productListClone.push({ //agregar un producto 
-      id: item.id,
-      nombre: item.item,
-      precio: item.precio,
-      cantidad: 1,
-      total: item.precio * 1,
+    const productOrderFound = productOrderList.filter((product) => {
+      return product.id == item.id;
     });
 
-      setProductList(productListClone)
+    if (productOrderFound.length > 0) {
+      productListClone.forEach((product, index) => {
+        if (product.id == item.id) {
+          let quantity = productListClone[index].cantidad;
+          let price = productListClone[index].precio;
 
+          productListClone[index].cantidad = quantity + 1;
+          productListClone[index].total = price * (quantity + 1);
+        }
+      });
+    } else {
+      productListClone.push({
+        //agregar un producto
+        id: item.id,
+        nombre: item.item,
+        precio: item.precio,
+        cantidad: 1,
+        total: item.precio * 1,
+      });
+    }
+    setProductOrderList(productListClone);
   };
 
+  const eliminarProductoPedido = (id) => {
+    let arrayFilter = productOrderList.filter((item) => item.id != id);
+    setProductOrderList(arrayFilter);
+  };
 
-  const eliminar = (id) => {
-    let arrayFilter = productList.filter(item => item.id != id )
-    setProductList(arrayFilter)
-  }
+  const sumarCantidad = (productPedido) => {
+    let productListClone = [...productOrderList];
 
+    productListClone.forEach((product, index) => {
+      if (product.id == productPedido.id) {
+        let quantity = productListClone[index].cantidad;
+        let price = productListClone[index].precio;
 
+        productListClone[index].cantidad = quantity + 1;
+        productListClone[index].total = price * (quantity + 1);
+      }
+    });
+    setProductOrderList(productListClone);
+  };
 
+  const restarCantidad = (productPedido) => {
+    if (productPedido.cantidad > 0) {
+      let productListClone = [...productOrderList];
+
+      productListClone.forEach((product, index) => {
+        if (product.id == productPedido.id) {
+          let quantity = productListClone[index].cantidad;
+          let price = productListClone[index].precio;
+
+          productListClone[index].cantidad = quantity - 1;
+          productListClone[index].total = price * (quantity - 1);
+        }
+      });
+      setProductOrderList(productListClone);
+    }
+  };
 
   // Elemento:  Card y button
   return (
@@ -63,7 +104,7 @@ const Menu = () => {
                 <button
                   className="menuButton"
                   key={item.id}
-                  onClick={(evento) => agregar(item)}
+                  onClick={(evento) => addProductOrder(item)}
                 >
                   <img
                     src={item.url}
@@ -92,17 +133,45 @@ const Menu = () => {
                 </tr>
               </thead>
               <tbody>
-                {productList.map((pedido, key) => (
+                {productOrderList.map((pedido, key) => (
                   <tr key={key}>
-                    <th scope="row">{pedido.nombre}</th>
-                    <td>{pedido.cantidad}</td>
+                    <td scope="row">{pedido.nombre}</td>
+                    <td>
+                      <button
+                        onClick={(resta) => restarCantidad(pedido)}
+                        className="btn"
+                      >
+                        {" "} - {" "}
+                      </button>
+                      {pedido.cantidad}
+                      <button
+                        onClick={(suma) => sumarCantidad(pedido)}
+                        className="btn"
+                      >
+                        {" "} + {" "}
+                      </button>
+                    </td>
+
                     <td>{pedido.total}</td>
                     <td>
-                      <button onClick={(evento) => eliminar(pedido.id)} className="btn btn-danger">Eliminar</button>
+                      <button
+                        onClick={(evento) => eliminarProductoPedido(pedido.id)}
+                        className="btn btn-danger"
+                      >
+                        Eliminar
+                      </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
+              <tfoot>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td>Total = {total}</td>
+                  <td></td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>
