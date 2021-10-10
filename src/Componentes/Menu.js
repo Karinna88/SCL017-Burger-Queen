@@ -1,18 +1,21 @@
 import React, { useEffect } from "react";
 import db from "../firebase/firebaseConfig";
 import NavBar from "./NavBar";
-import "../../src/css/Desayuno.css"
+import "../../src/css/Menu.css";
+import {useParams} from 'react-router-dom'
 
-const Desayuno = () => {
 
+const Menu = () => {
+
+ const {menu} = useParams();
+ console.log(menu)
 
   const [pedidos, setPedidos] = React.useState([]);
-  
   const [menus, setMenus] = React.useState([]);
 
   useEffect(() => {
     db.collection("menu")
-      .where("categoria", "==", "desayuno")
+      .where("categoria", "==", menu)
       .onSnapshot((snapshot) => {
         setMenus(
           snapshot.docs.map((documento) => {
@@ -99,4 +102,4 @@ const Desayuno = () => {
   );
 };
 
-export default Desayuno;
+export default Menu;

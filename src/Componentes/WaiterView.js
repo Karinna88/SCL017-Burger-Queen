@@ -2,11 +2,11 @@ import React, {Fragment} from "react";
 import { NavLink } from "react-router-dom";
 import almuerzo from '../../src/img/hamb-almuerzo.jpg';
 import desayuno from '../../src/img/desayuno.jpg';
-import '../css/Mesas.css';
+import '../css/WaiterView.css';
 import NavBar from "./NavBar"
 
 
-const Mesas = () => {
+const WaiterView = () => {
 
   return (
     <Fragment>
@@ -15,7 +15,7 @@ const Mesas = () => {
         <h1 className="witer-title">Mesero</h1>
         <div className="cards-container">
 
-          <NavLink to="/mesas/desayuno">
+          <NavLink to="/waiter/desayuno">
             <div className="space-down">
               <div className="card" style={{ width: '18rem' }}>
                 <div className="container-breakfast">
@@ -27,7 +27,7 @@ const Mesas = () => {
               </div>
             </div>
           </NavLink>
-           <NavLink to="/mesas/almuerzo">
+           <NavLink to="/waiter/almuerzo">
             <div className="space-up">
               <div className="card" style={{ width: '18rem' }}>
                 <div className="container-lunch">
@@ -41,10 +41,9 @@ const Mesas = () => {
           </NavLink> 
         </div>
       </div>
-
     </Fragment>
   );
 };
-export default Mesas;
+export default WaiterView;
 
 
