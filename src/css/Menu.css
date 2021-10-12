@@ -1,7 +1,6 @@
 .menuButton {
     align-items: center;
     text-align: center;
-    /* padding: 15px; */
     margin: 5px;
     border-style: none;
     border-radius: 20px;
@@ -16,3 +15,22 @@
     background-color: #f9a531;
     color: #361B3A;
 }
+
+.btn-cocina {
+    align-items: center;
+    text-align: center;
+    margin-top: 15px;
+    border-style: none;
+    border-radius: 5px;
+    color:#361B3A;
+    background-color:#f9a531;
+    padding: 12px;
+    font-weight: bold;
+}
+
+.btn-cocina:hover {
+    border-style: none;
+    background-color: #361B3A;
+    color:#f9a531;
+}
+

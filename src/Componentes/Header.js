@@ -9,7 +9,6 @@ const Header = () => {
       <div className="background-images">
         <div className="cardOverlay">
           <header>
-
           <nav>
               <NavBar />
             </nav>
@@ -21,10 +20,6 @@ const Header = () => {
               </p>
             </div>
             </div>
-
-           
-
-         
           </header>
         </div>
       </div>

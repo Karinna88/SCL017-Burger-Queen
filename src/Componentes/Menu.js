@@ -8,7 +8,10 @@ const Menu = () => {
   const { menu } = useParams();
   const [productOrderList, setProductOrderList] = React.useState([]);
   const [menus, setMenus] = React.useState([]);
-  const [total, setTotal] = React.useState(0)
+  const [total, setTotal] = React.useState(0);
+  const [cliente, setCliente] = React.useState('');
+  const [mesa, setMesa] = React.useState('');
+  const [comentario, setComentario] = React.useState('');
 
   // se carga el menú
   useEffect(() => {
@@ -52,11 +55,13 @@ const Menu = () => {
       });
     }
     setProductOrderList(productListClone);
+    calcularTotal(productListClone);
   };
 
   const eliminarProductoPedido = (id) => {
     let arrayFilter = productOrderList.filter((item) => item.id != id);
     setProductOrderList(arrayFilter);
+    calcularTotal(arrayFilter);
   };
 
   const sumarCantidad = (productPedido) => {
@@ -72,6 +77,7 @@ const Menu = () => {
       }
     });
     setProductOrderList(productListClone);
+    calcularTotal(productListClone);
   };
 
   const restarCantidad = (productPedido) => {
@@ -88,8 +94,44 @@ const Menu = () => {
         }
       });
       setProductOrderList(productListClone);
+      calcularTotal(productListClone);
     }
   };
+
+  const calcularTotal = (productList) => {
+    let total = 0;
+    productList.forEach((item) => {
+      total = total + item.total;
+    });
+    setTotal(total);
+  };
+
+
+  const onSubmit = (evento) => {
+    evento.preventDefault();
+    
+    db.collection('pedidos').add({
+      nombre: cliente,
+      mesa: mesa,
+      comentario: comentario,
+      detalles: productOrderList
+    })
+    .then(() =>{
+      console.log('Se agrego correctamente el pedido');
+
+      setCliente('');
+      setMesa('');
+      setComentario('');
+      setProductOrderList([]);
+      setTotal(0);
+
+
+    })
+    .catch((err) => {
+      console.log(err);
+  })
+  }
+
 
   // Elemento:  Card y button
   return (
@@ -123,6 +165,35 @@ const Menu = () => {
           {/* Elemento:  tabla pedido */}
 
           <div className="col-6">
+          <form action='' onSubmit={onSubmit}>
+            <table className="table mt-4">
+              <tr>
+                <td>
+                  <b>Datos Cliente </b>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={cliente}
+                    name="cliente"
+                    onChange={(evento) => setCliente(evento.target.value)}
+                    placeholder="Nombre Cliente"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={mesa}
+                    name="mesa"
+                    onChange={(evento) => setMesa(evento.target.value)}
+                    placeholder="N° Mesa"
+                  />
+                </td>
+              </tr>
+            </table>
+
             <table className="table">
               <thead>
                 <tr>
@@ -137,18 +208,18 @@ const Menu = () => {
                   <tr key={key}>
                     <td scope="row">{pedido.nombre}</td>
                     <td>
-                      <button
+                      <button type="button"
                         onClick={(resta) => restarCantidad(pedido)}
                         className="btn"
                       >
-                        {" "} - {" "}
+                        {" "}-{" "}
                       </button>
                       {pedido.cantidad}
-                      <button
+                      <button type="button"
                         onClick={(suma) => sumarCantidad(pedido)}
                         className="btn"
                       >
-                        {" "} + {" "}
+                        {" "}+{" "}
                       </button>
                     </td>
 
@@ -168,11 +239,33 @@ const Menu = () => {
                 <tr>
                   <td></td>
                   <td></td>
-                  <td>Total = {total}</td>
+                  <td>
+                    {" "}
+                    <b>Total = </b>
+                    {total}
+                  </td>
                   <td></td>
                 </tr>
               </tfoot>
             </table>
+
+            <div className="form-group">
+              <textarea
+                className="form-control"
+                name="comentario"
+                rows="5"
+                placeholder="Comentario adicional"
+                onChange={(evento) => setComentario(evento.target.value)}
+                value={comentario}
+              ></textarea>
+            </div>
+
+            <div className="form-group">
+              <button type="submit"  className="btn-cocina">Enviar a Cocina</button>
+            </div>
+
+              </form>
+
           </div>
         </div>
       </div>
